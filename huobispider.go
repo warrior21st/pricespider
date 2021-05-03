@@ -11,16 +11,12 @@ import (
 	"strings"
 )
 
-var (
+const (
 	_huobiApiPrefix string = "https://api.huobi.pro/market/trade?symbol="
 )
 
-type PriceModel struct {
-	price     float64
-	timestamp int64
-}
-
-func GetTradePrice(symbol string) (*PriceModel, error) {
+//获取火币最后一次成交价
+func GetHuobiTradePrice(symbol string) (*PriceModel, error) {
 	resp, err := http.Get(_huobiApiPrefix + strings.ToLower(symbol))
 	if err != nil {
 		return nil, err
@@ -65,10 +61,10 @@ func GetTradePrice(symbol string) (*PriceModel, error) {
 	finalPrice := math.Round(token1Sum/token0Sum*(math.Pow(10, 6))) / math.Pow(10, 6)
 	ts = ts / 1000
 	result := &PriceModel{
-		price:     finalPrice,
-		timestamp: ts,
+		Price:     finalPrice,
+		Timestamp: ts,
 	}
 
-	fmt.Println(symbol + " last trade price: " + strconv.FormatFloat(result.price, 'f', 6, 64) + ",   ts:" + strconv.FormatInt(result.timestamp, 10) + "  from huobi api.")
+	fmt.Println(symbol + " last trade price: " + strconv.FormatFloat(result.Price, 'f', 6, 64) + ",   ts:" + strconv.FormatInt(result.Timestamp, 10) + "  from huobi api.")
 	return result, nil
 }
