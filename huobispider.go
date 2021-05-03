@@ -8,6 +8,7 @@ import (
 	"math"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 var (
@@ -19,23 +20,21 @@ type PriceModel struct {
 	timestamp int64
 }
 
-func GetLastTradePriceFromHuobi(symbol string) (*PriceModel, error) {
-	//fmt.Println("getting " + symbol + " price from " + apiUrl + "...")
-	resp, err := http.Get(_huobiApiPrefix + symbol)
+func GetTradePrice(symbol string) (*PriceModel, error) {
+	resp, err := http.Get(_huobiApiPrefix + strings.ToLower(symbol))
 	if err != nil {
 		return nil, err
 	}
 
 	defer resp.Body.Close()
 	bodyBytes, err := ioutil.ReadAll(resp.Body)
-	bodyStr := string(bodyBytes)
 	if err != nil {
-		fmt.Println("huobiapi response error:" + bodyStr)
-		return nil, errors.New("get price from huobiapi error,response:" + bodyStr)
+		fmt.Println("huobiapi response error:" + string(bodyBytes))
+		return nil, err
 	}
 	if resp.StatusCode != 200 {
-		fmt.Println("huobiapi response error:" + bodyStr)
-		return nil, errors.New("get price from huobiapi error,response:" + bodyStr)
+		fmt.Println("huobiapi response error:" + string(bodyBytes))
+		return nil, errors.New("get price from huobiapi error,response:" + string(bodyBytes))
 	}
 
 	var resultObj interface{}
@@ -45,7 +44,8 @@ func GetLastTradePriceFromHuobi(symbol string) (*PriceModel, error) {
 	}
 	resultObjMap := resultObj.(map[string]interface{})
 	if resultObjMap["status"].(string) != "ok" {
-		return nil, errors.New("get price from huobiapi error,response:" + bodyStr)
+		fmt.Println("huobiapi response error:" + string(bodyBytes))
+		return nil, errors.New("get price from huobiapi error,response:" + string(bodyBytes))
 	}
 
 	jsonArr := resultObjMap["tick"].(map[string]interface{})["data"].([]interface{})
