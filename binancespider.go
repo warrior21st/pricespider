@@ -82,7 +82,7 @@ func GetBinanceAvgPrice(symbol string) (*BinanceAvgPrice, error) {
 	if err != nil {
 		return nil, err
 	}
-	mins, err := strconv.Atoi(resultObjMap["mins"].(string))
+	mins := int(resultObjMap["mins"].(float64))
 	if err != nil {
 		return nil, err
 	}
