@@ -43,7 +43,7 @@ func GetHuobiOTCPrice(huobiApiUrl string) (*PriceModel, error) {
 	jsonArr := resultObjMap["data"].([]interface{})
 	var tokenSum float64 = 0
 	var currencySum float64 = 0
-	for i := 0; i < 5 && i < len(jsonArr); i++ {
+	for i := 0; (i < 5 || tokenSum < 300000) && i < len(jsonArr); i++ {
 		m := jsonArr[i].(map[string]interface{})
 
 		tokenAmount, err := strconv.ParseFloat(m["tradeCount"].(string), 64)
