@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"math"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -44,9 +45,17 @@ func GetHuobiOTCPrice(huobiApiUrl string) (*PriceModel, error) {
 	var currencySum float64 = 0
 	for i := 0; i < 5 && i < len(jsonArr); i++ {
 		m := jsonArr[i].(map[string]interface{})
-		tokenAmount := m["tradeCount"].(float64)
+
+		tokenAmount, err := strconv.ParseFloat(m["tradeCount"].(string), 64)
+		if err != nil {
+			return nil, err
+		}
+		price, err := strconv.ParseFloat(m["price"].(string), 64)
+		if err != nil {
+			return nil, err
+		}
 		tokenSum += tokenAmount
-		currencySum += tokenAmount * m["price"].(float64)
+		currencySum += tokenAmount * price
 	}
 	finalPrice := math.Round(currencySum/tokenSum*(math.Pow(10, 6))) / math.Pow(10, 6)
 	result := &PriceModel{
