@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const (
@@ -65,6 +66,6 @@ func GetHuobiTradePrice(symbol string) (*PriceModel, error) {
 		Timestamp: ts,
 	}
 
-	fmt.Println(symbol + " last trade price: " + strconv.FormatFloat(result.Price, 'f', 6, 64) + ",   ts:" + strconv.FormatInt(result.Timestamp, 10) + "  from huobi api.")
+	fmt.Println(time.Now().Add(8*time.Hour).Format("2006-01-02 15:04:05") + "   " + symbol + " last trade price: " + strconv.FormatFloat(result.Price, 'f', 6, 64) + ",   ts:" + strconv.FormatInt(result.Timestamp, 10) + "  from huobi api.")
 	return result, nil
 }

@@ -50,7 +50,7 @@ func GetBinanceTradePrice(symbol string) (*PriceModel, error) {
 		Timestamp: time.Now().Unix(),
 	}
 
-	fmt.Println(symbol + " last trade price: " + strconv.FormatFloat(result.Price, 'f', 6, 64) + ",   ts:" + strconv.FormatInt(result.Timestamp, 10) + "  from binance api.")
+	//fmt.Println(time.Now().Add(8*time.Hour).Format("2006-01-02 15:04:05") + "   " + symbol + " last trade price: " + strconv.FormatFloat(result.Price, 'f', 6, 64) + ",   ts:" + strconv.FormatInt(result.Timestamp, 10) + "  from binance api.")
 	return result, nil
 }
 
@@ -92,6 +92,6 @@ func GetBinanceAvgPrice(symbol string) (*BinanceAvgPrice, error) {
 		Mins:      mins,
 	}
 
-	fmt.Println(symbol + " avg price: " + strconv.FormatFloat(result.Price, 'f', 6, 64) + ",   ts:" + strconv.FormatInt(result.Timestamp, 10) + ",   mins:" + strconv.Itoa(result.Mins) + "from binance api.")
+	//fmt.Println(time.Now().Add(8*time.Hour).Format("2006-01-02 15:04:05") + "   " + symbol + " avg price: " + strconv.FormatFloat(result.Price, 'f', 6, 64) + ",   ts:" + strconv.FormatInt(result.Timestamp, 10) + ",   mins:" + strconv.Itoa(result.Mins) + "from binance api.")
 	return result, nil
 }
