@@ -7,35 +7,8 @@ import (
 	"io/ioutil"
 	"math"
 	"net/http"
-	"strconv"
 	"time"
 )
-
-const (
-	_huobiOtcApiDefaultUrl string = "https://otc-api-hk.eiijo.cn/v1/data/trade-market"
-	Huobi_Otc_USDT_CoinId  int    = 2
-	Huobi_Otc_CNY_Currency int    = 1
-)
-
-//获取huobi otc买价
-func GetHuobiOTCBuyPrice(coinId int, currency int) (*PriceModel, error) {
-	url := _huobiOtcApiDefaultUrl
-	url += "?coinId=" + strconv.Itoa(coinId)
-	url += "&currency=" + strconv.Itoa(currency)
-	url += "&tradeType=sell&currPage=1&payMethod=0&acceptOrder=-1&country=&blockType=general&online=1&range=0"
-
-	return GetHuobiOTCPrice(url)
-}
-
-//获取huibi otc卖价
-func GetHuobiOTCSellPrice(coinId int, currency int) (*PriceModel, error) {
-	url := _huobiOtcApiDefaultUrl
-	url += "?coinId=" + strconv.Itoa(coinId)
-	url += "&currency=" + strconv.Itoa(currency)
-	url += "&tradeType=buy&currPage=1&payMethod=0&acceptOrder=-1&country=&blockType=general&online=1&range=0"
-
-	return GetHuobiOTCPrice(url)
-}
 
 //根据指定的完整huobi apiurl获取otc价格
 func GetHuobiOTCPrice(huobiApiUrl string) (*PriceModel, error) {
