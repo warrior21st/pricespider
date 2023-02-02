@@ -16,6 +16,12 @@ const (
 	_binanceAvgPriceApiPrefix   = "https://api.binance.com/api/v3/avgPrice?symbol="
 )
 
+type BinanceAvgPrice struct {
+	Price     float64
+	Timestamp int64
+	Mins      int
+}
+
 //获取币安最后一次成交价
 func GetBinanceTradePrice(symbol string) (*PriceModel, error) {
 	resp, err := http.Get(_binanceTradePriceApiPrefix + strings.ToUpper(symbol))
